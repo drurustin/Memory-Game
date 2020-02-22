@@ -1,0 +1,106 @@
+/* apply a natural box layout model to all elements, but allowing components to change */
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  background-color: red;
+  padding: 2rem;
+}
+
+.page-wrapper {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+#game-summary {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin: 2rem 0;
+}
+
+.summary-info, 
+.game-controls {
+  width: 50%;
+}
+
+.game-board {
+  display:grid;
+  place-items: start;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-gap: 10px;
+  width: 100%;
+  background-color: white;
+  padding: 10px;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  background-color: rgba(0,0,0,.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: none;
+}
+.modal.open {
+  display: block;
+}
+
+.dialog {
+  background-color: #FFFF;
+  max-width: 500px;
+  padding: 50px;
+}
+
+.card-container {
+  background-color: green;
+  display: block;
+  width: 100%;
+}
+
+.card {
+  display: block;
+  width: 100%;
+  padding-top: 100%;
+  color: white;
+  cursor: pointer;
+}
+
+.card-face-down {
+  background-color: black;
+  cursor: pointer;
+
+}
+
+.card-face-up {
+  background-color: blue;
+  pointer-events: none;
+}
+
+.guessed {
+  background-color: green;
+}
+
+.star,
+.star-disabled {
+  width: 10px;
+  height: 10px;
+}
+
+.star {
+  background-color: yellow;
+}
+.star-disabled {
+  background-color: black;
+}
