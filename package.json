@@ -1,0 +1,19 @@
+{
+  "name": "memory-game",
+  "version": "1.0.0",
+  "description": "Project for Front End Dev course with Udacity",
+  "main": "app.js",
+  "scripts": {
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production",
+    "start": "webpack-dev-server --mode development --open"
+  },
+  "author": "Dru Rustin",
+  "license": "ISC",
+  "devDependencies": {
+    "html-webpack-plugin": "^3.2.0",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.3"
+  }
+}
