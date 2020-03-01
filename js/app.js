@@ -53,7 +53,6 @@ const controlTimer = () => {
 }
 
 const controlStarRating = (moveCount) => {
-  console.log('move count = ' + moveCount);
   // After 15 moves, reduce star ratings to 2
   // After 25 moves, reduce star rating to 1
   // After 35 moves, reduce star rating to 0
@@ -79,7 +78,7 @@ const init = () => {
     'score': 1000,
     'flipCount': 0,
     'currentSelection': [],
-    'correctGuesses': 7,
+    'correctGuesses': 0,
     'matches': [],
     'starRating': 3,
     'currentTime': 0,
@@ -218,10 +217,8 @@ document.addEventListener('submit', e => {
       modalView.toggleModal('open');
       leaderBoardView.renderLeaderBoard(state.leaderBoard);
   
-      console.log(state.leaderBoard);
       // Save to local storage
       localStorage.setItem('leaderBoard', JSON.stringify(state.leaderBoard));
-      console.log(state.leaderBoard);
     } else {
       leaderBoardView.handleInvalidField();
     }

@@ -11,7 +11,7 @@ body {
   font-size: 24px;
   background-color: #9bdafb;
   min-height: 100vh;
-  background-image: url('/img/clouds.jpg');
+  background-image: url('../img/clouds.jpg');
   background-repeat: no-repeat;
   background-position: center top;
   background-size: cover;
@@ -35,32 +35,6 @@ body {
   right: -45%;
   width: 350px;
   z-index: -1;
-}
-
-.cloud {
-  position: fixed;
-  transform: translateY(0);
-  animation: cloudFloat 5s forwards infinite;
-  background-image: url('/img/cloud_1.png');
-  background-repeat: no-repeat;
-  background-position: center bottom;
-  background-size: contain;  
-}
-
-.cloud-bg-1 {
-  top: 5%;
-  z-index: -2;
-  width: 600px;
-  height: 300px;
-}
-
-.cloud-bg-2 {
-  top: 45%;
-  right: -30%;
-  z-index: -2;
-  width: 600px;
-  height: 300px;
-  animation-delay: 500ms;
 }
 
 header {

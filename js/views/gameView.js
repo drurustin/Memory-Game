@@ -89,9 +89,6 @@ export const handleCorrectGuess = item => {
 
 export const handleWinner = (time, starRating) => {
   let html;
-  let doughnutPlural;
-
-  starRating > 1 ? doughnutPlural = `s` : ``;
 
   if (starRating > 0) {
     html = `
