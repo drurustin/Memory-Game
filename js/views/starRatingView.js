@@ -1,10 +1,12 @@
-import { elements } from './base';
 import { domStrings } from './base';
 
 export const removeStar = () => {
+  setTimeout(function(){ 
   const star = document.querySelector(`.${domStrings.star}`);
   star.classList.add(domStrings.starDisabled);
   star.classList.remove(domStrings.star);
+  console.log('removed');
+  }, 3500);
 }
 
 export const updateStarRating = (count) => {

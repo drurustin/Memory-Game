@@ -24,9 +24,8 @@ body {
   margin: 2rem 0;
 }
 
-.summary-info, 
-.game-controls {
-  width: 50%;
+#game-summary div {
+  flex-grow: 1;
 }
 
 .game-board {

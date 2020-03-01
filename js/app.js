@@ -1,68 +1,27 @@
-import Cards from "./models/Cards";
-import Score from "./models/Score";
-import Leader from "./models/Leader";
-import * as cardsView from "./views/cardsView";
-import * as starRatingView from "./views/starRatingView";
-import * as leaderBoardView from "./views/leaderBoardView";
-import * as modalView from "./views/modalView";
-
-import { elements } from "./views/base";
-
-/** Data */
-
-const cardsData = [
-  {
-    "name": "LA Lakers",
-    "imgSrc": ""
-  },
-  {
-    "name": "Boston Celtics",
-    "imgSrc": ""
-  },
-  {
-    "name": "Milwaukee Bucks",
-    "imgSrc": ""
-  },
-  {
-    "name": "Golden State Warriors",
-    "imgSrc": ""
-  },
-  {
-    "name": "New York Knicks",
-    "imgSrc": ""
-  },
-  {
-    "name": "Chicago Bulls",
-    "imgSrc": ""
-  },
-  {
-    "name": "Houston Rockets",
-    "imgSrc": ""
-  },
-  {
-    "name": "Detroit Pistons",
-    "imgSrc": ""
-  }
-];
+import Game from './models/Game';
+import LeaderBoard from './models/LeaderBoard';
+import * as gameView from './views/gameView';
+import * as timerView from './views/timerView';
+import * as starRatingView from './views/starRatingView';
+import * as leaderBoardView from './views/leaderBoardView';
+import * as modalView from './views/modalView';
 
 let state = {};
 
-/* Card Controller */
+/* Game Controller */
 /* =============== */
 
 const controlCard = () => {
   // Set all cards to be face down
-  cardsView.resetCards();
+  gameView.resetCards();
 
   // Set up card deck
-  const cardObj = new Cards(cardsData);
-  cardObj.createNewDeck();
-
-  state.cards = cardObj.cards;
+  state.game = new Game();
+  state.game.createNewDeck();
 
   // Render cards to game board (grid)
-  state.cards.forEach(card => {
-    cardsView.renderCard(card);
+  state.game.cards.forEach(card => {
+    gameView.renderCard(card);
   })
 }
 
@@ -71,204 +30,219 @@ const controlCard = () => {
 
 const controlTimer = () => {
 
-  var timeout = setTimeout(function() {
-  }, 10000);
-
   // Start Game Timer
-  setInterval(
+  state.timer = setInterval(
     () => {
-      // Update state with current time
-      state.currentTime++;
-      // Save current time in local storage
-      localStorage.setItem('currentTime', JSON.stringify(state.currentTime));
+      if (state.gameStatus === 'playing') {
+        // Update state with current time
+        state.currentTime++;
+
+        // Display time elapsed
+        timerView.displayTime(state.currentTime);
+
+        // Update score (for every second take off 1 point)
+        if (state.score > 0 && state.gameStatus === 'playing') state.score--;
+
+      } else if (state.gameStatus === 'stopped') {
+        timerView.displayTime(state.finishTime);
+      }
+
     },
     1000
   );
 }
 
-const controlStarRating = (flipCount) => {
-  // After 20 turns reduce star ratings to 2
-  // After 40 turns reduce star rating to 1
-  if (flipCount === 6) {
+const controlStarRating = (moveCount) => {
+  console.log('move count = ' + moveCount);
+  // After 15 moves, reduce star ratings to 2
+  // After 25 moves, reduce star rating to 1
+  // After 35 moves, reduce star rating to 0
+  if (moveCount === 35) {
+    state.starRating = 0;
+    starRatingView.removeStar();
+  } else if (moveCount === 25) {
     state.starRating = 1;
     starRatingView.removeStar();
-  } else if (flipCount === 4) {
+  } else if (moveCount === 15) {
     state.starRating = 2;
-    starRatingView.removeStar();
-  } else if (flipCount === 2) {
-    state.starRating = 0;
     starRatingView.removeStar();  
   }
-  // Save star rating to local storage
-  localStorage.setItem('starRating', JSON.stringify(state.starRating));
-
 }
 
-const controlMoveCounter = () => {
-    // 1. Update flip count
-    state.flipCount+= 1;
-
-    // Count two card flips as a 'move'
-    if (state.flipCount % 2 === 0) {
-      // moveCounterView.updateMoveCounter();
-    }
-
-    // Save to local storage
-    localStorage.setItem('flipCount', JSON.stringify(state.flipCount));
-
-}
-
-
-/* Score Controller */
-/* ================ */
-
-const controlScore = () => {
-
-  state.score = new Score();
-
-
-}
-
-const controlLeader = () => {
-  state.leader = new Leader();
-}
 
 const init = () => {
 
-  controlTimer();
-
-  /** Global state of the app
-   * - Deck state
-   * - Star Rating
-   * - Move Counter
-   * - Leaderboard
-   */
+  // Global state of the app
 
   state = {
-    "cards": [],
-    "score": 0,
-    "flipCount": 0,
-    "currentSelection": [],
-    "correctGuesses": 7,
-    "matches": [],
-    "starRating": 3,
-    "currentTime": 0,
-    "finishTime": 0,
-    "leaderBoard": []
+    'gameStatus': 'stopped',
+    'score': 1000,
+    'flipCount': 0,
+    'currentSelection': [],
+    'correctGuesses': 7,
+    'matches': [],
+    'starRating': 3,
+    'currentTime': 0,
+    'leaderBoard': []
   };
+
+  controlTimer();
 
   // Update leaderboard from local storage
   const leaderBoard = JSON.parse(localStorage.getItem('leaderBoard'));
+  // Set state leaderboard and keep to 5 leaders max
   if (leaderBoard) state.leaderBoard = leaderBoard;
 
-
   controlCard();
-  controlScore();
-  controlStarRating(state.flipCount);
+  gameView.updateMoveCounter(state.game.moveCount);
   starRatingView.resetStars();
   modalView.toggleModal('close');
+
+  state.gameStatus = 'playing';
 }
 
 // Run init function when content loads
-document.addEventListener("DOMContentLoaded", init);
+document.addEventListener('DOMContentLoaded', init);
 
 // Event delegation for card click
-document.addEventListener("click", evt => {
+document.addEventListener('click', evt => {
+
+  // Prevent card from being clicked twice
+  // evt.target.style.pointerEvents = 'none';
 
   // If a memory card has been clicked
-  if ( evt.target.matches(".card, .card *") && !evt.target.classList.contains('guessed')  ) {
+  if ( evt.target.matches('.card, .card *') && !evt.target.classList.contains('guessed')  ) {
 
-    controlMoveCounter(state.flipCount);
+    // Update flip count for each click
+    state.flipCount+= 1;
 
-    controlStarRating(state.flipCount);
+    // 2 flips = 1 move
+    if (state.flipCount%2 === 0) {
+      // Update move count
+      state.game.updateMoveCounter(state.flipCount);
+      gameView.updateMoveCounter(state.game.moveCount);
+      
+      // Lock cards so you can't click another card until
+      // cards are flipped back over
+      gameView.toggleCardLock('lock');
+    }
 
-    // 2. Capture title of clicked card
-    state.currentSelection.push(evt.target.dataset.team);
+    // Handle star rating
+    controlStarRating(state.game.moveCount);
 
-    // 3. Flip card
-    cardsView.flipCard(evt.target);
+    // Capture title of clicked card
+    state.currentSelection.push(evt.target.dataset.item);
 
-    // 3. If second selection in turn:
+    // Flip card
+    gameView.flipCard(evt.target);
+
+    // If second selection in turn:
     if (state.currentSelection.length > 1) {
-      // 4. Check for match
+
+      // If correct guess
       if (state.currentSelection[0] === state.currentSelection[1]) {
-        // If correct guess
+  
         // Update state
         state.correctGuesses += 1;
 
+        // Update the UI to show correct guess
         state.currentSelection.forEach(element => {
-          cardsView.handleCorrectAnswer(element);        
+          gameView.handleCorrectGuess(element);        
         }); 
 
-        // Check for winner
+        // Check if all cards have been matched
         if (state.correctGuesses === 8){
 
-          state.score.totalScore  = state.currentTime;
+          // Update the game state
+          state.gameState = 'stopped';
 
-          cardsView.handleWinner(state.score.totalScore, state.starRating);
+          // Save the current time as the total time
+          state.finishTime = state.currentTime;
 
-          
+          gameView.handleWinner(state.finishTime, state.starRating);
+
           // Check for high score
-          const isHighScore = state.score.isHighScore(state.score.totalScore, state.leaderBoard);
-
-          if (isHighScore) {
-            // 1. Find what the index of new score in the leaderboard should be
-            console.log('High score!!');
-            console.log(state.score.setNewScoreIndex(state.score.totalScore, state.leaderBoard));
+          if (state.game.isHighScore(state.score, state.leaderBoard)){
+            // If it is a high score show high score form
+            leaderBoardView.renderLeaderForm(state.score);
           }
 
         }
 
       } else {
+        // Handle incorrect guess
         state.currentSelection.forEach(element => {
-          cardsView.handleIncorrectAnswer(element);        
+          gameView.handleIncorrectGuess(element);        
         }); 
       }
 
-      // 7. Empty current selection array
+      // Unlock cards
+      setTimeout(function(){
+        gameView.toggleCardLock('unlock');
+      }, 3000);
+
+      // Empty current selection array
       state.currentSelection = [];
     }
 
   }
 
   // Close modal window
-  if ( evt.target.matches(".btn-close-modal") ) {
+  if ( evt.target.matches('.btn-close-modal') ) {
     modalView.toggleModal('close');
+    clearInterval(state.timer);
     init(); 
   };
 
 });
 
-// Event delegation for card click
-document.addEventListener("click", evt => {
-
-});
-
-// Get new leader name
-document.addEventListener("submit", e => {
+// Handle new leader
+document.addEventListener('submit', e => {
   e.preventDefault();
-  if (e.target.matches(".leaderForm")) {
+  if (e.target.matches('.leader-form')) {
+
+    const lb = new LeaderBoard(state.leaderBoard);
     
-    state.newLeader = new Leader(leaderBoardView.getNewLeaderName(), state.score.totalScore);
+    const newLeader = {
+      name: leaderBoardView.getNewLeaderName(),
+      score: state.score
+    };
 
-    // Rank new leader
-    state.newLeader.updateLeaderBoard(state.leaderBoard);
-
-    // Display modal window with id of 'leader-board'
-    modalView.toggleModal('close');
-    modalView.toggleModal('open');
-    leaderBoardView.renderLeaderBoard(state.leaderBoard);
-
-    // Save to local storage
-    localStorage.setItem('leaderBoard', JSON.stringify(state.leaderBoard));
+    if (newLeader.name.length > 0){
+      lb.updateLeaderBoard(newLeader);
+    
+      state.leaderBoard = lb.leaders;    
+  
+      // Display modal window
+      modalView.toggleModal('close');
+      modalView.toggleModal('open');
+      leaderBoardView.renderLeaderBoard(state.leaderBoard);
+  
+      console.log(state.leaderBoard);
+      // Save to local storage
+      localStorage.setItem('leaderBoard', JSON.stringify(state.leaderBoard));
+      console.log(state.leaderBoard);
+    } else {
+      leaderBoardView.handleInvalidField();
+    }
 
   }
 
 });
 
+window.addEventListener('scroll', function(e) {
+  if (window.pageYOffset > 250) {
+    const clouds = document.querySelectorAll('.cloud');
+    Array.from(clouds).forEach( cloud => {
+      cloud.classList.add('fade-out');
+    });
+  }
+});
+
 // Reset Game
-document.querySelector('.page-wrapper').addEventListener("click", e => {
-  if (e.target.matches(".btn-restart")) {
+document.querySelector('.page-wrapper').addEventListener('click', e => {
+  if (e.target.matches('.btn-restart')) {
+    clearInterval(state.timer);
     init();
   }
 });

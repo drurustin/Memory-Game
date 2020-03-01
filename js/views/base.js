@@ -4,7 +4,7 @@ export const elements = {
   stars: document.querySelectorAll('.star'),
   starsDisabled: document.querySelectorAll('.star-disabled'),
   star: document.querySelector('.star'),
-  modal: document.querySelector('.modal')
+  modal: document.querySelector('.modal'),
 };
 
 // This is for class names that have been added to the DOM
@@ -12,4 +12,6 @@ export const elements = {
 export const domStrings = {
   starDisabled: 'star-disabled',
   star: 'star',
+  leaderNameInput: 'leaderNameInput',
+  winnerModal: 'winner-message-content'
 }
