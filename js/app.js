@@ -115,6 +115,9 @@ document.addEventListener('click', evt => {
     // Update flip count for each click
     state.flipCount+= 1;
 
+    // Lock clicked card
+    gameView.toggleCardLock(evt.target, 'lock');
+
     // 2 flips = 1 move
     if (state.flipCount%2 === 0) {
       // Update move count
@@ -137,6 +140,9 @@ document.addEventListener('click', evt => {
 
     // If second selection in turn:
     if (state.currentSelection.length > 1) {
+
+      // Lock deck
+      gameView.toggleDeckLock('lock');
 
       // If correct guess
       if (state.currentSelection[0] === state.currentSelection[1]) {
@@ -177,7 +183,8 @@ document.addEventListener('click', evt => {
 
       // Unlock cards
       setTimeout(function(){
-        gameView.toggleCardLock('unlock');
+        // Unlock deck
+        gameView.toggleDeckLock('unlock');
       }, 3000);
 
       // Empty current selection array

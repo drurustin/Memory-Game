@@ -27,18 +27,6 @@ export const flipCard = card => {
   }
 }
 
-export const toggleCardLock = (type) => {
-  const cards = document.querySelectorAll('.card');
-  
-    Array.from(cards).forEach(card => {
-      if (type === 'lock') {
-        // card.style.pointerEvents = 'none';
-      } else if (type === 'unlock') {
-        // card.style.pointerEvents = 'auto';
-      }
-    });
-}
-
 export const updateMoveCounter = count => {
   const mc = document.getElementById('move-counter');
   mc.innerText = count;
@@ -138,5 +126,24 @@ export const resetCards = () => {
       card.parentNode.removeChild(card); 
     })
     
+  }
+}
+
+export const toggleCardLock = (card, type) => {
+  toggleLockClass(card, type);
+}
+
+export const toggleDeckLock = (type) => {
+  const cards = document.querySelectorAll('.card');
+  Array.from(cards).forEach(card => {
+    toggleLockClass(card, type);
+  });
+}
+
+const toggleLockClass = (card, type) => {
+  if (type === `lock`) {
+    card.classList.add('card-lock');
+  } else if (type === `unlock`) {
+    card.classList.remove('card-lock');
   }
 }

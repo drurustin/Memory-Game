@@ -8,7 +8,7 @@ html div {
 
 body {
   font-family: 'Sriracha';
-  font-size: 24px;
+  font-size: 18px;
   background-color: #9bdafb;
   min-height: 100vh;
   background-image: url('../img/clouds.jpg');
@@ -16,6 +16,10 @@ body {
   background-position: center top;
   background-size: cover;
   z-index: 0;
+}
+
+.hide-mb {
+  display: none;
 }
 
 .hero {
@@ -42,9 +46,9 @@ header {
 }
 
 header h1 {
-  font-size: 32px;
+  font-size: 1.2rem;
   color: #FFF;
-  text-shadow: -4px 2px 0 rgba(0,0,0,1);
+  text-shadow: -1px 1px 0 rgba(0,0,0,1);
   display: inline-block;
   margin: 0;
   vertical-align: middle;
@@ -52,15 +56,15 @@ header h1 {
 
 .logo {
   display: inline-block;
-  max-width: 150px;
-  margin: 0 1rem 0 0;
+  max-width: 100px;
+  margin: 0 .5rem 0 0;
   vertical-align: middle;
 }
 
 .page-wrapper {
   width: 100%;
   /* max-width: 960px; */
-  padding: 2rem;
+  padding: 1.5rem 1rem 1rem;
   margin: 0 auto;
 }
 
@@ -69,20 +73,37 @@ header h1 {
   flex-direction: row;
   flex-wrap: wrap;
   width: 100%;
-  margin: 2rem 0;
+  margin: 0 0 2rem 0;
 }
 
 #game-summary div {
   flex-grow: 1;
-  margin-bottom: 1rem;
+}
+
+.doughnut-rating {
+  width: 100%;
+  padding: 1rem;
+}
+
+.move-count-container {
+  text-align: left;
+}
+
+.game-controls {
+  text-align: center;
+  padding: 1rem;
+}
+
+.time-container {
+  text-align: right;
 }
 
 .game-board {
   display:grid;
   place-items: start;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: auto;
-  grid-gap: 10px;
+  grid-gap: 5px;
   width: 100%;
   padding: 0px;
 }
@@ -96,7 +117,7 @@ header h1 {
   display: block;
   width: 100%;
   border-radius: 8px;
-  border: solid 5px #FFFFFF;
+  border: solid 2px #FFFFFF;
   -webkit-box-shadow: 5px 5px 0px 0px rgba(0,0,0,0.15);
   -moz-box-shadow: 5px 5px 0px 0px rgba(0,0,0,0.15);
   box-shadow: 5px 5px 0px 0px rgba(0,0,0,0.15);
@@ -105,6 +126,10 @@ header h1 {
 
 .card:hover {
   cursor: pointer;
+}
+
+.card-lock {
+  pointer-events: none;
 }
 
 .card-face-down .card-img {
@@ -120,7 +145,7 @@ header h1 {
   background-image: url('../img/card-down.jpg');
   background-repeat: no-repeat;
   background-size: cover;
-  padding-top: 95%;
+  padding-top: 98%;
 }
 
 .card-face-up {
@@ -128,6 +153,7 @@ header h1 {
   animation-duration: 0.3s;
   animation-name: flip-up;
   animation-timing-function: ease-out;
+  transform: rotateY(0deg);
 }
 
 
@@ -523,13 +549,19 @@ footer {
 
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
+  .game-controls {
+    padding: 2rem;
+  }
   .game-board { 
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   }
 }
 
 /* Medium portrait devices (tablets, 768px and up) */
 @media (min-width: 768px) { 
+  .hide-mb {
+    display: inline-block;
+  }
   .hero-pig {
     top: -3%;
     right: -10%;
@@ -538,7 +570,7 @@ footer {
   }
   .game-board { 
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-gap: 20px;
+    grid-gap: 10px;
   }
  }
 
@@ -547,13 +579,22 @@ footer {
   body {
     padding: 2rem;
   }
+  .logo {
+    max-width: 150px;
+  }
   .leader-form {
     display: block;
   }
   .game-board { 
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-gap: 20px;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (orientation: portrait) and (min-width: 992px) { 
+  .game-board { 
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }  
 }
 
 /* Extra large devices (large desktops, 1200px and up) */

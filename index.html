@@ -34,7 +34,7 @@
         </picture> 
         <h1>Memory Game</h1>
         <div id='game-summary'>
-          <div class='summary-info'>
+          <div class='doughnut-rating'>
             <div id='star-rating'>
               <span class='star'></span>
               <span class='star'></span>
@@ -45,17 +45,17 @@
             Moves: <span id='move-counter'>0</span>
           </div>
           <div class='time-container'>
-            Elapsed Time: <span id='time-counter'>0</span>
-          </div>
-          <div class='game-controls'>
-            <button class='btn btn-primary btn-restart'>
-              Restart Game
-            </button>
+            <span class="hide-mb">Elapsed Time:</span> <span id='time-counter'>0</span>
           </div>
         </div>
       </header>
       <div class='game-board'>
         <!-- cards will render here -->
+      </div>
+      <div class='game-controls'>
+        <button class='btn btn-primary btn-restart'>
+          Restart
+        </button>
       </div>
       <div class='modal'>
         <div class='dialog'>

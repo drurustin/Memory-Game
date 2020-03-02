@@ -7,6 +7,8 @@
     <!-- Required meta tags -->
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
+    
+ 
     <title>The Simpsons Memory Game</title>
     <meta name='description' content=''>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
@@ -21,18 +23,18 @@
     <picture>
      <source media="(min-width: 650px)" srcset="img/flying_pig.png" class="hero hero-pig">
       <source media="(min-width: 465px)" srcset="img/flying_pig.png" class="hero hero-pig">
-      <img src="/img/flying_pig.png" alt="Simpsons Character" class="hero hero-pig">
+      <img src="img/flying_pig.png" alt="Simpsons Character" class="hero hero-pig">
     </picture>
     <div class='page-wrapper'>
       <header>
         <picture>
-          <source media="(min-width: 650px)" srcset="img/logo-tab_s31.png">
-          <source media="(min-width: 465px)" srcset="img/logo-tab_s31.png">
-          <img src="/img/logo-tab_s31.png" alt="The Simpsons logo" class="logo">
+          <source media="(min-width: 650px)" srcset="img/logo-tab_s31.png" class="logo">
+          <source media="(min-width: 465px)" srcset="img/logo-tab_s31.png" class="logo">
+          <img src="img/logo-tab_s31.png" alt="The Simpsons logo" class="logo">
         </picture> 
         <h1>Memory Game</h1>
         <div id='game-summary'>
-          <div class='summary-info'>
+          <div class='doughnut-rating'>
             <div id='star-rating'>
               <span class='star'></span>
               <span class='star'></span>
@@ -43,17 +45,17 @@
             Moves: <span id='move-counter'>0</span>
           </div>
           <div class='time-container'>
-            Elapsed Time: <span id='time-counter'>0</span>
-          </div>
-          <div class='game-controls'>
-            <button class='btn btn-primary btn-restart'>
-              Restart Game
-            </button>
+            <span class="hide-mb">Elapsed Time:</span> <span id='time-counter'>0</span>
           </div>
         </div>
       </header>
       <div class='game-board'>
         <!-- cards will render here -->
+      </div>
+      <div class='game-controls'>
+        <button class='btn btn-primary btn-restart'>
+          Restart
+        </button>
       </div>
       <div class='modal'>
         <div class='dialog'>
@@ -63,5 +65,5 @@
     <footer>
       <p>Images courtest of Fox Media.</p>
     </footer>
-  <script src="js/bundle.js"></script></body>
+  <script type="text/javascript" src="js/bundle.js"></script></body>
 </html>
